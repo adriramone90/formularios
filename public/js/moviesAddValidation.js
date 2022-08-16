@@ -20,7 +20,12 @@ window.onload = function(){
     const ulErrors = document.querySelector('.errores');
     regExAlpha = /^[a-zA-Z\sñáéíóúü ]*$/
 
-    let booleanForm = false
+    let booleanTitle = false
+    let booleanRating = false
+    let booleanAwards = false
+    let booleanReleaseDate = false
+    let booleanLength = false
+    let booleanGenreId = false
     
     inputTitle.focus();
 
@@ -29,42 +34,39 @@ window.onload = function(){
         if(e.target.value.trim().length <= 1){
             inputTitle.classList.add('is-invalid')
             ulErrors.innerHTML += '<li>El titulo no debe estar vacío y debe ser mayor a 1 caracter</li>'
-            booleanForm = false
         } else {
             inputTitle.classList.remove('is-invalid')
             inputTitle.classList.add('is-valid')
             ulErrors.innerHTML = ''
-            booleanForm = true
+            booleanTitle = true
         }
-        console.log(booleanForm)
+        console.log(booleanTitle)
     });
 
     inputRating.addEventListener('blur',(e)=>{
         if(e.target.value < 0 || e.target.value > 10 || e.target.value.trim().length === 0){
             inputRating.classList.add('is-invalid')
             ulErrors.innerHTML += '<li>El rating no debe estar vacío y debe ser entre 1 y 10</li>'
-            booleanForm = false
         } else {
             inputRating.classList.remove('is-invalid')
             inputRating.classList.add('is-valid')
             ulErrors.innerHTML = ''
-            booleanForm = true
+            booleanRating = true
         }
-        console.log(booleanForm)
+        
     });
 
     inputAwards.addEventListener('blur',(e)=>{
         if(e.target.value < 0 || e.target.value > 10 || e.target.value.trim().length === 0){
             inputAwards.classList.add('is-invalid')
             ulErrors.innerHTML += '<li>Los premios no deben estar vacío y debe ser entre 1 y 10</li>'
-            booleanForm = false
         } else {
             inputAwards.classList.remove('is-invalid')
             inputAwards.classList.add('is-valid')
             ulErrors.innerHTML = ''
-            booleanForm = true
+            booleanAwards = true
         }
-        console.log(booleanForm)
+        
     });
 
     inputReleaseDate.addEventListener('blur',(e)=>{
@@ -72,15 +74,49 @@ window.onload = function(){
         if(moment(e.target.value) > moment() || e.target.value.trim().length === 0){
             inputReleaseDate.classList.add('is-invalid')
             ulErrors.innerHTML += '<li>La fecha no debe estar vacia y no debe ser mayor a la fecha actual</li>'
-            booleanForm = false
+            
         } else {
             inputReleaseDate.classList.remove('is-invalid')
             inputReleaseDate.classList.add('is-valid')
             ulErrors.innerHTML = ''
-            booleanForm = true
+            booleanReleaseDate = true
         }
-        
+    });
+
+    inputLength.addEventListener('blur',(e)=>{
+        if(!(typeof e.target.value === 'number') || e.target.value < 60 || e.target.value > 360){
+            inputLength.classList.add('is-invalid')
+            ulErrors.innerHTML += '<li>La duración no debe estar vacía y debe ser un número</li>'
+        } else {
+            inputLength.classList.remove('is-invalid')
+            inputLength.classList.add('is-valid')
+            ulErrors.innerHTML = ''
+            booleanLength = true
+        }
+    });
+
+    inputGenreId.addEventListener('blur',(e)=>{
+        if(e.target.value === ''){
+            inputGenreId.classList.add('is-invalid')
+            ulErrors.innerHTML += '<li>Debe seleccionar una categoría</li>'
+        } else {
+            inputGenreId.classList.remove('is-invalid')
+            inputGenreId.classList.add('is-valid')
+            ulErrors.innerHTML = ''
+            booleanGenreId = true
+        }
+
+        formulario.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            if(booleanGenreId && booleanLength && 
+                booleanReleaseDate && booleanAwards &&
+                booleanTitle && booleanRating){
+                    ulErrors.innerHTML = ''
+                    formulario.submit()
+                } else {
+                    ulErrors.innerHTML = '<li>Debe completar los campos vacios</li>'
+                }
+        })
     })
 
-    
 }
